@@ -5,19 +5,23 @@ from flask_login import LoginManager
 from flask import render_template, redirect, url_for, flash
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 
-from models import User
+
 from forms import RegistrationForm, LoginForm
 
-with app.app_context():
-    db.create_all()
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='templates/')
 app.config['SECRET_KEY'] = 'your_secret_key'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 db = SQLAlchemy(app)
 
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
+
+
+from models import User
+
+with app.app_context():
+    db.create_all()
 
 
 @app.route('/')
